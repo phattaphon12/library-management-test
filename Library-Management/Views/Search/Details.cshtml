@@ -25,7 +25,7 @@
 
 @if (Model.Status == BookStatus.Available)
 {
-    <form asp-action="BorrowBook" asp-controller="Loan" method="post">
+    <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
         <input type="hidden" name="bookId" value="@Model.Id" />
         <input type="hidden" name="username" value="@username" />
         <button type="submit" class="btn btn-primary">Borrow Book</button>
@@ -41,3 +41,20 @@ else if (Model.Status == BookStatus.Borrowed)
 }
 
 <a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
+
+@section Scripts
+        {
+    <script>
+        document.getElementById("borrowForm")?.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            // Display the alert with username and due date
+            var borrowedDate = new Date();
+            var dueDate = new Date(borrowedDate);
+            dueDate.setDate(dueDate.getDate() + 14); // Add 14 days for due date
+            var username = '@username';
+            alert(username + " ได้ยืมหนังสือ " + "@Model.Title" + " จะต้องคืนภายในวันที่ " + dueDate.toLocaleDateString("th-TH"));
+            // Now submit the form after showing the alert
+            this.submit();
+        });
+    </script>
+}
