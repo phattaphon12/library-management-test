@@ -8,7 +8,6 @@
                 <th>Book Title</th>
                 <th>Borrowed Date</th>
                 <th>Due Date</th>
-                <th>Status</th>
                 <th>Action</th>  <!-- เพิ่มคอลัมน์สำหรับปุ่ม "Return Book" -->
             </tr>
         </thead>
@@ -19,16 +18,6 @@
                     <td>@loanBook.Book.Title</td>  <!-- ใช้ Title ของหนังสือ -->
                     <td>@loanBook.Loan.BorrowedDate.ToString("yyyy-MM-dd")</td>
                     <td>@loanBook.Loan.DueDate.ToString("yyyy-MM-dd")</td>
-                    <td>
-                        @if (loanBook.Loan.IsReturned)
-                        {
-                            <span>Returned</span>
-                        }
-                        else
-                        {
-                            <span>Not Returned</span>
-                        }
-                    </td>
                     <td>
                         @if (!loanBook.Loan.IsReturned)
                         {

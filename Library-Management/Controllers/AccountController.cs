@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Library_Management.Controllers
 { //test github
@@ -95,6 +96,7 @@ namespace Library_Management.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
             // ตั้งค่า Session
             HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("Role", user.Role); // เก็บ Role ใน Session
             // Redirect ตาม Role
             if (user.Role == "Admin")
             {
