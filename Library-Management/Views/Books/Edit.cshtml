@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Edit";
+}
+@model Book
+<h1>Edit Book</h1>
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div>
+        <label for="Title">Title:</label>
+        <input type="text" name="Title" value="@Model.Title" />
+    </div>
+    <div>
+        <label for="Category">Category:</label>
+        <input type="text" name="Category" value="@Model.Category" />
+    </div>
+    <div>
+        <label for="Author">Author:</label>
+        <input type="text" name="Author" value="@Model.Author" />
+    </div>
+    <div>
+        <label for="Publisher">Publisher:</label>
+        <input type="text" name="Publisher" value="@Model.Publisher" />
+    </div>
+    <div>
+        <label for="PublishedDate">Published Date:</label>
+        <input type="date" name="PublishedDate" value="@Model.PublishedDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <div>
+        <label for="Isbn">ISBN:</label>
+        <input type="text" name="Isbn" value="@Model.Isbn" />
+    </div>
+    <div>
+        <label for="Description">Description:</label>
+        <textarea name="Description">@Model.Description</textarea>
+    </div>
+    <div>
+        <label for="Image">Change Image:</label>
+        <input type="file" name="Image" />
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <p>Current Image:</p>
+            <img src="@Model.ImagePath" alt="Book Image" style="width:100px;height:auto;" />
+        }
+    </div>
+    <button type="submit">Save Changes</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Books @ViewData["Username"]</h1>
+<form asp-action="Search" method="get">
+    <input type="text" name="search" placeholder="Search by Title" value="@ViewBag.SearchQuery" />
+    <button type="submit">Search</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Published Date</th>
+            <th>Isbn</th>
+            <th>Description</th>
+            <th>Image</th> <!-- เพิ่มคอลัมน์รูปภาพ -->
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Category</td>
+                <td>@book.Author</td>
+                <td>@book.Publisher</td>
+                <td>
+                    @if (book.PublishedDate.HasValue)
+                    {
+                        @book.PublishedDate.Value.ToString("yyyy-MM-dd") <!-- จัดรูปแบบวันที่ -->
+                    }
+                    else
+                    {
+                        <span>ไม่ทราบ</span> <!-- แสดงคำว่า "ไม่ทราบ" -->
+                    }
+                </td>
+                <td>@book.Isbn</td>
+                <td>@book.Description</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(book.ImagePath))
+                    {
+                        <img src="@book.ImagePath" alt="Book Image" style="width:100px;height:auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-warning"
+                       asp-controller="Books"
+                       asp-action="Edit"
+                       asp-route-id="@book.Id">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger"
+                       href="javascript:void(0);"
+                       onclick="confirmDelete('@book.Id', '@book.Title')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-warning" asp-action="AddBook" asp-controller="Books">Create</a>
+<script>
+    function confirmDelete(bookId, bookTitle) {
+        var confirmation = confirm("คุณต้องการลบ '" + bookTitle + "' หรือไม่?");
+        if (confirmation) {
+            // ถ้าผู้ใช้ยืนยันการลบ
+            $.ajax({
+                url: '@Url.Action("Delete", "Books")', // ระบุ Action Delete ของ Controller Books
+                type: 'POST',
+                data: { id: bookId }, // ส่งค่า id ของหนังสือที่ต้องการลบ
+                success: function(response) {
+                    if (response.success) {
+                        alert("ลบหนังสือสำเร็จ");
+                        location.reload(); // รีเฟรชหน้าเพื่อแสดงผลการลบ
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert("เกิดข้อผิดพลาดในการลบ");
+                }
+            });
+        }
+    }
+</script>

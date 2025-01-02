@@ -1,0 +1,24 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Book Details";
+}
+<h1>@Model.Title</h1>
+<div>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" alt="@Model.Title" style="width:200px;height:auto;" />
+    }
+    else
+    {
+        <div style="width:200px;height:300px;background-color:#ccc;display:flex;align-items:center;justify-content:center;">
+            No Image
+        </div>
+    }
+</div>
+<p><strong>Category:</strong> @Model.Category</p>
+<p><strong>Author:</strong> @Model.Author</p>
+<p><strong>Publisher:</strong> @Model.Publisher</p>
+<p><strong>Published Date:</strong> @Model.PublishedDate?.ToString("yyyy-MM-dd")</p>
+<p><strong>ISBN:</strong> @Model.Isbn</p>
+<p><strong>Description:</strong> @Model.Description</p>
+<a href="@Url.Action("SearchBook", "Search")">Back to Books</a>

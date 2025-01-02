@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "AddBook";
+}
+<h1>AddBook</h1>
+<form asp-action="AddBook" method="post" enctype="multipart/form-data">
+    <input type="text" name="Title" placeholder="Title" />
+    <input type="text" name="Category" placeholder="Category" />
+    <input type="text" name="Author" placeholder="Author" />
+    <input type="text" name="Publisher" placeholder="Publisher" />
+    <input type="date" name="PublishedDate" placeholder="Published Date" />
+    <input type="text" name="Isbn" placeholder="Isbn" />
+    <input type="text" name="Description" placeholder="Description" />
+    <!-- ช่องอัปโหลดรูปภาพ -->
+    <label for="Image">Upload Image:</label>
+    <input type="file" name="Image" />
+    <button type="submit">Add Book</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,13 @@
+# Build results
+bin/
+obj/
+*.dll
+*.pdb
+
+# IIS
+.vs/
+*.config
+
+# Ignore AssemblyInfo files
+**/Library-Management.AssemblyInfo.cs
+**/Library-Management.AssemblyInfoInputs.cache
