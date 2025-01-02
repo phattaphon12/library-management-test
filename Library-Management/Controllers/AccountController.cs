@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Library_Management.Controllers
 { //test github
@@ -14,9 +15,12 @@ namespace Library_Management.Controllers
     {
         private readonly IMongoCollection<User> _userCollection;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private object _loanCollection;
+        private readonly MongoDbService _mongoDbService;  // ใช้ MongoDbService แทน object
         // ปรับ Constructor ให้รับ IHttpContextAccessor
         public AccountController(MongoDbService mongoDbService, IHttpContextAccessor httpContextAccessor)
         {
+            _mongoDbService = mongoDbService;
             _userCollection = mongoDbService.GetUsersCollection();
             _httpContextAccessor = httpContextAccessor;  // กำหนดค่า IHttpContextAccessor
         }
@@ -113,6 +117,33 @@ namespace Library_Management.Controllers
 
             // Redirect ไปยังหน้า Login หรือหน้าแรก
             return RedirectToAction("Login");
+        }
+
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> UserBooks()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (username == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            // ดึงรายการ Loan ของ User
+            var loans = await _mongoDbService.GetLoansCollection()
+                .Find(loan => loan.Username == username && !loan.IsReturned)
+                .ToListAsync();
+            // ดึงข้อมูลหนังสือที่ยืมอยู่
+            var bookIds = loans.Select(loan => loan.BookId).ToList();
+            var books = await _mongoDbService.GetBooksCollection()
+                .Find(book => bookIds.Contains(book.Id))
+                .ToListAsync();
+            // รวมข้อมูล Loan และ Book
+            var loanBookInfo = loans.Join(
+                books,
+                loan => loan.BookId,
+                book => book.Id,
+                (loan, book) => new LoanBookViewModel { Loan = loan, Book = book })
+                .ToList();
+            return View(loanBookInfo);
         }
     }
 }

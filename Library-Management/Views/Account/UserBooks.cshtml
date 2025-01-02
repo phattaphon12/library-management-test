@@ -1,0 +1,39 @@
+﻿@model List<LoanBookViewModel>
+<h2>Books You Have Borrowed</h2>
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Borrowed Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Book.Title</td> <!-- แสดงชื่อหนังสือ -->
+                    <td>@item.Loan.BorrowedDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Loan.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        @if (item.Loan.IsReturned)
+                        {
+                            <span>Returned</span>
+                        }
+                        else
+                        {
+                            <span>Not Returned</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>You have not borrowed any books.</p>
+}
