@@ -23,21 +23,24 @@
 <p><strong>ISBN:</strong> @Model.Isbn</p>
 <p><strong>Description:</strong> @Model.Description</p>
 
-@if (Model.Status == BookStatus.Available)
+@if (@username != "admin")
 {
-    <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
-        <input type="hidden" name="bookId" value="@Model.Id" />
-        <input type="hidden" name="username" value="@username" />
-        <button type="submit" class="btn btn-primary">Borrow Book</button>
-    </form>
-}
-else if (Model.Status == BookStatus.Borrowed)
-{
-    <form id="returnForm" asp-action="ReturnBook" asp-controller="Loan" method="post">
-        <input type="hidden" name="bookId" value="@Model.Id" />
-        <input type="hidden" name="username" value="@username" />
-        <button type="submit" class="btn btn-danger">Return Book</button>
-    </form>
+    @if (Model.Status == BookStatus.Available)
+    {
+        <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <input type="hidden" name="username" value="@username" />
+            <button type="submit" class="btn btn-primary">Borrow Book</button>
+        </form>
+    }
+    else if (Model.Status == BookStatus.Borrowed)
+    {
+        <form id="returnForm" asp-action="ReturnBook" asp-controller="Loan" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <input type="hidden" name="username" value="@username" />
+            <button type="submit" class="btn btn-danger">Return Book</button>
+        </form>
+    }
 }
 
 <a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
