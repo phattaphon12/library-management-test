@@ -46,39 +46,44 @@
 <a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
 
 @section Scripts
-        {
+{
     <script>
         document.getElementById("borrowForm")?.addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent form submission
-            // Display the alert with username and due date
             var username = '@username';
-            // หากไม่มีการ login ให้ redirect ไปที่หน้า Login
             if (!username) {
                 alert("กรุณาล็อกอินก่อนทำการยืมหนังสือ");
-                window.location.href = '@Url.Action("Login", "Account")'; // เปลี่ยนให้ไปที่หน้า Login
+                window.location.href = '@Url.Action("Login", "Account")';
                 return;
             }
             var borrowedDate = new Date();
             var dueDate = new Date(borrowedDate);
             dueDate.setDate(dueDate.getDate() + 14); // Add 14 days for due date
-            var username = '@username';
-            alert(username + " ได้ยืมหนังสือ " + "@Model.Title" + " จะต้องคืนภายในวันที่ " + dueDate.toLocaleDateString("th-TH"));
-            // Now submit the form after showing the alert
-            this.submit();
+            var confirmBorrow = confirm(username + " คุณต้องการยืมหนังสือ \"" + "@Model.Title" + "\" หรือไม่?\nหนังสือต้องคืนภายในวันที่ " + dueDate.toLocaleDateString("th-TH"));
+
+            if (confirmBorrow) {
+                this.submit(); // Proceed with the form submission
+            } else {
+                alert("การยืมหนังสือถูกยกเลิก");
+            }
         });
+
         document.getElementById("returnForm")?.addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent form submission
             var username = '@username';
-            // หากไม่มีการ login ให้ redirect ไปที่หน้า Login
             if (!username) {
                 alert("กรุณาล็อกอินก่อนทำการคืนหนังสือ");
-                window.location.href = '@Url.Action("Login", "Account")'; // เปลี่ยนให้ไปที่หน้า Login
+                window.location.href = '@Url.Action("Login", "Account")';
                 return;
             }
-            // Show alert for successful book return
-            alert(username + " ได้คืนหนังสือ " + "@Model.Title" + " แล้ว!");
-            // Now submit the return form after showing the alert
-            this.submit();
+            var confirmReturn = confirm(username + " คุณต้องการคืนหนังสือ \"" + "@Model.Title" + "\" หรือไม่?");
+
+            if (confirmReturn) {
+                alert(username + " ได้คืนหนังสือ \"" + "@Model.Title" + "\" แล้ว!");
+                this.submit(); // Proceed with the form submission
+            } else {
+                alert("การคืนหนังสือถูกยกเลิก");
+            }
         });
     </script>
 }
