@@ -1,4 +1,4 @@
-﻿@model List<LoanBookViewModel>
+﻿@model List<Library_Management.Models.LoanBookViewModel>
 <h2>Books You Have Borrowed</h2>
 @if (Model != null && Model.Count > 0)
 {
@@ -9,23 +9,37 @@
                 <th>Borrowed Date</th>
                 <th>Due Date</th>
                 <th>Status</th>
+                <th>Action</th>  <!-- เพิ่มคอลัมน์สำหรับปุ่ม "Return Book" -->
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var loanBook in Model)
             {
                 <tr>
-                    <td>@item.Book.Title</td> <!-- แสดงชื่อหนังสือ -->
-                    <td>@item.Loan.BorrowedDate.ToString("yyyy-MM-dd")</td>
-                    <td>@item.Loan.DueDate.ToString("yyyy-MM-dd")</td>
+                    <td>@loanBook.Book.Title</td>  <!-- ใช้ Title ของหนังสือ -->
+                    <td>@loanBook.Loan.BorrowedDate.ToString("yyyy-MM-dd")</td>
+                    <td>@loanBook.Loan.DueDate.ToString("yyyy-MM-dd")</td>
                     <td>
-                        @if (item.Loan.IsReturned)
+                        @if (loanBook.Loan.IsReturned)
                         {
                             <span>Returned</span>
                         }
                         else
                         {
                             <span>Not Returned</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!loanBook.Loan.IsReturned)
+                        {
+                            <!-- Form สำหรับคืนหนังสือ -->
+                            <form method="post" action="@Url.Action("ReturnBook", "Loan")">
+                                <!-- Hidden inputs สำหรับส่งข้อมูล -->
+                                <input type="hidden" name="bookId" value="@loanBook.Loan.BookId" />
+                                <input type="hidden" name="username" value="@loanBook.Loan.Username" />
+                                <!-- ปุ่มสำหรับคืนหนังสือ -->
+                                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to return this book?')">Return Book</button>
+                            </form>
                         }
                     </td>
                 </tr>
@@ -36,4 +50,14 @@
 else
 {
     <p>You have not borrowed any books.</p>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function returnBook(loanId) {
+            // แสดง alert เมื่อผู้ใช้กดปุ่ม
+            alert("You have returned the book with Loan ID: " + loanId);
+            // สามารถเพิ่มโค้ดสำหรับการอัปเดตสถานะ "Return Book" ที่ฐานข้อมูลได้ที่นี่
+        }
+    </script>
 }
