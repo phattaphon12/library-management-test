@@ -1,6 +1,7 @@
 ﻿@model Book
 @{
     ViewData["Title"] = "Book Details";
+    var username = Context.Items["Username"] as string;
 }
 <h1>@Model.Title</h1>
 <div>
@@ -21,4 +22,68 @@
 <p><strong>Published Date:</strong> @Model.PublishedDate?.ToString("yyyy-MM-dd")</p>
 <p><strong>ISBN:</strong> @Model.Isbn</p>
 <p><strong>Description:</strong> @Model.Description</p>
+
+@if (@username != "admin")
+{
+    @if (Model.Status == BookStatus.Available)
+    {
+        <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <input type="hidden" name="username" value="@username" />
+            <button type="submit" class="btn btn-primary">Borrow Book</button>
+        </form>
+    }
+    else if (Model.Status == BookStatus.Borrowed)
+    {
+        <form id="returnForm" asp-action="ReturnBook" asp-controller="Loan" method="post">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <input type="hidden" name="username" value="@username" />
+            <button type="submit" class="btn btn-danger">Return Book</button>
+        </form>
+    }
+}
+
 <a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
+
+@section Scripts
+{
+    <script>
+        document.getElementById("borrowForm")?.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            var username = '@username';
+            if (!username) {
+                alert("กรุณาล็อกอินก่อนทำการยืมหนังสือ");
+                window.location.href = '@Url.Action("Login", "Account")';
+                return;
+            }
+            var borrowedDate = new Date();
+            var dueDate = new Date(borrowedDate);
+            dueDate.setDate(dueDate.getDate() + 14); // Add 14 days for due date
+            var confirmBorrow = confirm(username + " คุณต้องการยืมหนังสือ \"" + "@Model.Title" + "\" หรือไม่?\nหนังสือต้องคืนภายในวันที่ " + dueDate.toLocaleDateString("th-TH"));
+
+            if (confirmBorrow) {
+                this.submit(); // Proceed with the form submission
+            } else {
+                alert("การยืมหนังสือถูกยกเลิก");
+            }
+        });
+
+        document.getElementById("returnForm")?.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            var username = '@username';
+            if (!username) {
+                alert("กรุณาล็อกอินก่อนทำการคืนหนังสือ");
+                window.location.href = '@Url.Action("Login", "Account")';
+                return;
+            }
+            var confirmReturn = confirm(username + " คุณต้องการคืนหนังสือ \"" + "@Model.Title" + "\" หรือไม่?");
+
+            if (confirmReturn) {
+                alert(username + " ได้คืนหนังสือ \"" + "@Model.Title" + "\" แล้ว!");
+                this.submit(); // Proceed with the form submission
+            } else {
+                alert("การคืนหนังสือถูกยกเลิก");
+            }
+        });
+    </script>
+}

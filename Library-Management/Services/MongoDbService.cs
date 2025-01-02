@@ -21,4 +21,9 @@ public class MongoDbService
     {
         return _database.GetCollection<User>("Users"); // ชื่อ Collection สำหรับ Users
     }
+
+    public IMongoCollection<Loan> GetLoansCollection()
+    {
+        return _database.GetCollection<Loan>("Loans");
+    }
 }

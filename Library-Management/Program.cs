@@ -50,4 +50,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Search}/{action=SearchBook}/{id?}");
 
+app.MapControllerRoute(
+    name: "userBooks",
+    pattern: "Account/UserBooks",
+    defaults: new { controller = "Account", action = "UserBooks" });
+
+
 app.Run();

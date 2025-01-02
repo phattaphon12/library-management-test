@@ -5,6 +5,7 @@ using MongoDB.Driver;
 public class BooksController : Controller
 {
     private readonly MongoDbService _mongoDbService;
+    private BookStatus status;
     public BooksController(MongoDbService mongoDbService)
     {
         _mongoDbService = mongoDbService;
@@ -76,11 +77,13 @@ public class BooksController : Controller
     {
         var collection = _mongoDbService.GetBooksCollection();
         var book = collection.Find(b => b.Id == id).FirstOrDefault();
-        if (book == null)
+        if (book != null)
         {
-            return NotFound();
+            book.Status = status;
+            collection.ReplaceOne(b => b.Id == id, book);
+            return View(book);
         }
-        return View(book);
+        return NotFound();
     }
     [HttpPost]
     public IActionResult Edit(Book updatedBook, IFormFile? Image)
@@ -122,6 +125,24 @@ public class BooksController : Controller
             .Set(b => b.Description, updatedBook.Description)
             .Set(b => b.ImagePath, updatedBook.ImagePath);
         collection.UpdateOne(b => b.Id == updatedBook.Id, updateDefinition);
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult UpdateStatus(string id, BookStatus status)
+    {
+        var collection = _mongoDbService.GetBooksCollection();
+        var book = collection.Find(b => b.Id == id).FirstOrDefault();
+        if (book == null)
+        {
+            return NotFound();
+        }
+        // อัปเดตสถานะของหนังสือ
+        book.Status = status;
+        // อัปเดตข้อมูลใน MongoDB
+        var updateDefinition = Builders<Book>.Update.Set(b => b.Status, status);
+        collection.UpdateOne(b => b.Id == id, updateDefinition);
         return RedirectToAction("Index");
     }
 

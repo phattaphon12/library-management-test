@@ -13,4 +13,12 @@ public class User
     public string Role { get; set; } // เช่น "Admin" หรือ "User"
     [BsonElement("phone")]
     public string Phone { get; set; } // หมายเลขโทรศัพท์
+    public List<BorrowedBook> BorrowedBooks { get; set; }
+}
+
+public class BorrowedBook
+{
+    public string BookTitle { get; set; }
+    public DateTime BorrowedDate { get; set; }
+    public DateTime DueDate { get; set; }
 }
