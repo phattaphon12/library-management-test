@@ -12,7 +12,7 @@
                 <th>Book Title</th>
                 <th>Borrowed Date</th>
                 <th>Due Date</th>
-                <th>Return</th> <!-- เพิ่มคอลัมน์สำหรับปุ่ม "Return Book" -->
+                <th>Return</th>
             </tr>
         </thead>
         <tbody>
@@ -35,12 +35,9 @@
                     <td>
                         @if (!loanBook.Loan.IsReturned)
                         {
-                            <!-- Form สำหรับคืนหนังสือ -->
                             <form method="post" action="@Url.Action("ReturnBook", "Loan")">
-                                <!-- Hidden inputs สำหรับส่งข้อมูล -->
                                 <input type="hidden" name="bookId" value="@loanBook.Loan.BookId" />
                                 <input type="hidden" name="username" value="@loanBook.Loan.Username" />
-                                <!-- ปุ่มสำหรับคืนหนังสือ -->
                                 <button type="submit" class="btn btn-success"
                                     onclick="return confirm('Are you sure you want to return this book?')">Return Book</button>
                             </form>

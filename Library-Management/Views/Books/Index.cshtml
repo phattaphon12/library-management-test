@@ -1,31 +1,48 @@
 ﻿@model IEnumerable<Book>
 @{
     ViewData["Title"] = "Index";
+    <link rel="stylesheet" href="~/css/books.css" asp-append-version="true" />
 }
-<h1>Books @ViewData["Username"]</h1>
-<form asp-action="Search" method="get">
-    <input type="text" name="search" placeholder="Search by Title" value="@ViewBag.SearchQuery" />
-    <button type="submit">Search</button>
-</form>
-<table>
+<h1 class="font-color-lib my-4">Books</h1>
+
+<div class="manage-container row mb-4">
+    <form asp-action="Search" method="get" class="input-group col-sm">
+        <input type="text" class="form-control" name="search" placeholder="Search by Title" value="@ViewBag.SearchQuery" />
+        <div class="input-group-append">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+    </div>
+    </form>
+
+    <a class="btn btn-primary col-sm-1" asp-action="AddBook" asp-controller="Books">+ Create</a>
+</div>
+
+<table class="table-book">
     <thead>
         <tr>
+            <th>Image</th> <!-- เพิ่มคอลัมน์รูปภาพ -->
             <th>Title</th>
             <th>Category</th>
             <th>Author</th>
             <th>Publisher</th>
             <th>Published Date</th>
-            <th>Isbn</th>
-            <th>Image</th> <!-- เพิ่มคอลัมน์รูปภาพ -->
             <th>Status</th> <!-- เพิ่มคอลัมน์สถานะ -->
-            <th>Edit</th>
-            <th>Delete</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var book in Model)
         {
             <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(book.ImagePath))
+                    {
+                        <img src="@book.ImagePath" alt="Book Image" style="width:100px;height:auto;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
                 <td>@book.Title</td>
                 <td>@book.Category</td>
                 <td>@book.Author</td>
@@ -40,49 +57,30 @@
                         <span>ไม่ทราบ</span>
                     }
                 </td>
-                <td>@book.Isbn</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(book.ImagePath))
-                    {
-                        <img src="@book.ImagePath" alt="Book Image" style="width:100px;height:auto;" />
-                    }
-                    else
-                    {
-                        <span>No Image</span>
-                    }
-                </td>
                 <td>
                     <form asp-action="UpdateStatus" asp-controller="Books" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@book.Id" />
-                        <!-- ปุ่มเพื่อเปลี่ยนสถานะเป็น Available -->
-                        <button type="submit" name="status" value="Available" class="btn btn-success"
-                        @(book.Status == BookStatus.Available ? "disabled" : "")>
-                            Available
-                        </button>
-                        <!-- ปุ่มเพื่อเปลี่ยนสถานะเป็น Borrowed -->
-                        <button type="submit" name="status" value="Borrowed" class="btn btn-warning"
-                        @(book.Status == BookStatus.Borrowed ? "disabled" : "")>
-                            Borrowed
-                        </button>
+                        @if (book.Status == BookStatus.Available)
+                        {
+                            <button type="submit" name="status" value="Borrowed" class="btn btn-outline-success">Available</button>
+                        }
+                        else if (book.Status == BookStatus.Borrowed)
+                        {
+                            <button type="submit" name="status" value="Available" class="btn btn-outline-warning">Borrowed</button>
+                        }
+
                     </form>
                 </td>
                 <td>
-                    <a class="btn btn-warning"
-                       asp-controller="Books"
-                       asp-action="Edit"
-                       asp-route-id="@book.Id">Edit</a>
-                </td>
-                <td>
-                    <a class="btn btn-danger"
-                       href="javascript:void(0);"
-                       onclick="confirmDelete('@book.Id', '@book.Title')">Delete</a>
+                    <a class="btn btn-warning" asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id">Edit</a>
+                    <a class="btn btn-danger" href="javascript:void(0);"
+                        onclick="confirmDelete('@book.Id', '@book.Title')">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a class="btn btn-warning" asp-action="AddBook" asp-controller="Books">Create</a>
 <script>
     function confirmDelete(bookId, bookTitle) {
         var confirmation = confirm("คุณต้องการลบ '" + bookTitle + "' หรือไม่?");
@@ -92,7 +90,7 @@
                 url: '@Url.Action("Delete", "Books")', // ระบุ Action Delete ของ Controller Books
                 type: 'POST',
                 data: { id: bookId }, // ส่งค่า id ของหนังสือที่ต้องการลบ
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         alert("ลบหนังสือสำเร็จ");
                         location.reload(); // รีเฟรชหน้าเพื่อแสดงผลการลบ
@@ -100,7 +98,7 @@
                         alert(response.message);
                     }
                 },
-                error: function() {
+                error: function () {
                     alert("เกิดข้อผิดพลาดในการลบ");
                 }
             });
