@@ -2,53 +2,64 @@
 @{
     ViewData["Title"] = "Book Details";
     var username = Context.Items["Username"] as string;
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
 }
-<h1>@Model.Title</h1>
-<div>
-    @if (!string.IsNullOrEmpty(Model.ImagePath))
-    {
-        <img src="@Model.ImagePath" alt="@Model.Title" style="width:200px;height:auto;" />
-    }
-    else
-    {
-        <div style="width:200px;height:300px;background-color:#ccc;display:flex;align-items:center;justify-content:center;">
-            No Image
+
+<div class="container-fluid mt-4">
+    <div class="row justify-content-between">
+        <div class="pic-detail-lib col-md-5 mb-3 ">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="@Model.Title" style="width:250px;height:auto; margin-bottom: 20px;" />
+            }
+            else
+            {
+                <div
+                    style="width:200px;height:300px;background-color:#ccc;display:flex;align-items:center;justify-content:center;">
+                    No Image
+                </div>
+            }
+            @if (@username != "admin")
+            {
+                @if (Model.Status == BookStatus.Available)
+                {
+                    <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <input type="hidden" name="username" value="@username" />
+                        <button type="submit" class="btn btn-primary">Borrow Book</button>
+                    </form>
+                }
+                else if (Model.Status == BookStatus.Borrowed)
+                {
+                    <form id="returnForm" asp-action="ReturnBook" asp-controller="Loan" method="post">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <input type="hidden" name="username" value="@username" />
+                        <button type="submit" class="btn btn-danger">Return Book</button>
+                    </form>
+                }
+            }
         </div>
-    }
+        <div class="col-md-7">
+            <h1>@Model.Title</h1>
+            <p><strong>Category:</strong> @Model.Category</p>
+            <p><strong>Author:</strong> @Model.Author</p>
+            <p><strong>Publisher:</strong> @Model.Publisher</p>
+            <p><strong>Published Date:</strong> @Model.PublishedDate?.ToString("yyyy-MM-dd")</p>
+            <p><strong>ISBN:</strong> @Model.Isbn</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+        </div>
+    </div>
+
 </div>
-<p><strong>Category:</strong> @Model.Category</p>
-<p><strong>Author:</strong> @Model.Author</p>
-<p><strong>Publisher:</strong> @Model.Publisher</p>
-<p><strong>Published Date:</strong> @Model.PublishedDate?.ToString("yyyy-MM-dd")</p>
-<p><strong>ISBN:</strong> @Model.Isbn</p>
-<p><strong>Description:</strong> @Model.Description</p>
 
-@if (@username != "admin")
-{
-    @if (Model.Status == BookStatus.Available)
-    {
-        <form id="borrowForm" asp-action="BorrowBook" asp-controller="Loan" method="post">
-            <input type="hidden" name="bookId" value="@Model.Id" />
-            <input type="hidden" name="username" value="@username" />
-            <button type="submit" class="btn btn-primary">Borrow Book</button>
-        </form>
-    }
-    else if (Model.Status == BookStatus.Borrowed)
-    {
-        <form id="returnForm" asp-action="ReturnBook" asp-controller="Loan" method="post">
-            <input type="hidden" name="bookId" value="@Model.Id" />
-            <input type="hidden" name="username" value="@username" />
-            <button type="submit" class="btn btn-danger">Return Book</button>
-        </form>
-    }
-}
-
-<a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
+<div class="text-center mt-5">
+    <a href="@Url.Action("SearchBook", "Search")">Back to Books</a>
+</div>
 
 @section Scripts
 {
     <script>
-        document.getElementById("borrowForm")?.addEventListener("submit", function(event) {
+        document.getElementById("borrowForm")?.addEventListener("submit", function (event) {
             event.preventDefault(); // Prevent form submission
             var username = '@username';
             if (!username) {
@@ -68,7 +79,7 @@
             }
         });
 
-        document.getElementById("returnForm")?.addEventListener("submit", function(event) {
+        document.getElementById("returnForm")?.addEventListener("submit", function (event) {
             event.preventDefault(); // Prevent form submission
             var username = '@username';
             if (!username) {

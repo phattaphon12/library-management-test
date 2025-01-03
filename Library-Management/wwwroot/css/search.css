@@ -3,3 +3,10 @@
 .font-color-lib {
     color: var(--font-color-primary);
 }
+
+.pic-detail-lib {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
