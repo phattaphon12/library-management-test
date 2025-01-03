@@ -1,24 +1,25 @@
 ﻿@model Library_Management.DTOs.LoginRequest
 @{
     ViewData["Title"] = "Login";
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 }
-<h2>@ViewData["Title"]</h2>
+<h2 class="font-color-lib text-center mb-3">@ViewData["Title"]</h2>
 <form method="post">
-    <div class="form-group">
-        <label for="Username">Username</label>
+    <div class="form-group mb-3">
+        <label for="Username" class="font-color-lib mb-1">Username</label>
         <input type="text" class="form-control" id="Username" name="Username" required />
     </div>
-    <div class="form-group">
-        <label for="Password">Password</label>
+    <div class="form-group mb-2">
+        <label for="Password" class="font-color-lib mb-1">Password</label>
         <input type="password" class="form-control" id="Password" name="Password" required />
     </div>
     @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
     {
-        <div class="alert alert-danger">
+        <div class="invalid-feedback">
             @ViewData["ErrorMessage"]
         </div>
     }
     <!-- แสดงข้อผิดพลาดจาก ModelState -->
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="login-btn-lib btn btn-primary">Login</button>
 </form>

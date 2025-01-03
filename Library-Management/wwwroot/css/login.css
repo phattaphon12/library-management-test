@@ -1,0 +1,9 @@
+@import "site.css";
+
+.font-color-lib {
+    color: var(--color-blue);
+}
+
+.login-btn-lib {
+    width: 100%;
+}
