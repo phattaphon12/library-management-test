@@ -60,41 +60,42 @@
 {
     <script>
         document.getElementById("borrowForm")?.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent form submission
-            var username = '@username';
-            if (!username) {
-                alert("กรุณาล็อกอินก่อนทำการยืมหนังสือ");
-                window.location.href = '@Url.Action("Login", "Account")';
-                return;
-            }
-            var borrowedDate = new Date();
-            var dueDate = new Date(borrowedDate);
-            dueDate.setDate(dueDate.getDate() + 14); // Add 14 days for due date
-            var confirmBorrow = confirm(username + " คุณต้องการยืมหนังสือ \"" + "@Model.Title" + "\" หรือไม่?\nหนังสือต้องคืนภายในวันที่ " + dueDate.toLocaleDateString("th-TH"));
+    event.preventDefault(); // Prevent form submission
+    var username = '@username';
+    if (!username) {
+        alert("Please log in before borrowing a book.");
+        window.location.href = '@Url.Action("Login", "Account")';
+        return;
+    }
+    var borrowedDate = new Date();
+    var dueDate = new Date(borrowedDate);
+    dueDate.setDate(dueDate.getDate() + 14); // Add 14 days for due date
+    var confirmBorrow = confirm(username + " Do you want to borrow the book \"" + "@Model.Title" + "\"?\nThe book must be returned by " + dueDate.toLocaleDateString("th-TH"));
 
-            if (confirmBorrow) {
-                this.submit(); // Proceed with the form submission
-            } else {
-                alert("การยืมหนังสือถูกยกเลิก");
-            }
-        });
+    if (confirmBorrow) {
+        this.submit(); // Proceed with the form submission
+    } else {
+        alert("The book borrowing has been canceled.");
+    }
+});
 
-        document.getElementById("returnForm")?.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent form submission
-            var username = '@username';
-            if (!username) {
-                alert("กรุณาล็อกอินก่อนทำการคืนหนังสือ");
-                window.location.href = '@Url.Action("Login", "Account")';
-                return;
-            }
-            var confirmReturn = confirm(username + " คุณต้องการคืนหนังสือ \"" + "@Model.Title" + "\" หรือไม่?");
+document.getElementById("returnForm")?.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form submission
+    var username = '@username';
+    if (!username) {
+        alert("Please log in before returning a book.");
+        window.location.href = '@Url.Action("Login", "Account")';
+        return;
+    }
+    var confirmReturn = confirm(username + " Are you sure you want to return the book \"" + "@Model.Title" + "\"?");
 
-            if (confirmReturn) {
-                alert(username + " ได้คืนหนังสือ \"" + "@Model.Title" + "\" แล้ว!");
-                this.submit(); // Proceed with the form submission
-            } else {
-                alert("การคืนหนังสือถูกยกเลิก");
-            }
-        });
+    if (confirmReturn) {
+        alert(username + " You have successfully returned the book \"" + "@Model.Title" + "\"!");
+        this.submit(); // Proceed with the form submission
+    } else {
+        alert("The book returning has been canceled.");
+    }
+});
+
     </script>
 }

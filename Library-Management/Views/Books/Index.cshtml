@@ -66,6 +66,7 @@
                         }
                         else if (book.Status == BookStatus.Borrowed)
                         {
+                            <div>@book.Username</div>
                             <button type="submit" name="status" value="Available" class="btn btn-outline-warning">Borrowed</button>
                         }
 
