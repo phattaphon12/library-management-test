@@ -1,47 +1,80 @@
 ﻿@{
     ViewData["Title"] = "Edit";
+    <link rel="stylesheet" href="~/css/books.css" asp-append-version="true" />
 }
 @model Book
-<h1>Edit Book</h1>
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="Id" value="@Model.Id" />
+<h1 class="font-color-lib mt-4 mb-3">Edit Book</h1>
+
+<div class="container-fluid mt-4">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data" class="row justify-content-between">
+        <div class="pic-add-lib col-md-5 mb-3">
     <div>
-        <label for="Title">Title:</label>
-        <input type="text" name="Title" value="@Model.Title" />
-    </div>
-    <div>
-        <label for="Category">Category:</label>
-        <input type="text" name="Category" value="@Model.Category" />
-    </div>
-    <div>
-        <label for="Author">Author:</label>
-        <input type="text" name="Author" value="@Model.Author" />
-    </div>
-    <div>
-        <label for="Publisher">Publisher:</label>
-        <input type="text" name="Publisher" value="@Model.Publisher" />
-    </div>
-    <div>
-        <label for="PublishedDate">Published Date:</label>
-        <input type="date" name="PublishedDate" value="@Model.PublishedDate?.ToString("yyyy-MM-dd")" />
-    </div>
-    <div>
-        <label for="Isbn">ISBN:</label>
-        <input type="text" name="Isbn" value="@Model.Isbn" />
-    </div>
-    <div>
-        <label for="Description">Description:</label>
-        <textarea name="Description">@Model.Description</textarea>
-    </div>
-    <div>
-        <label for="Image">Change Image:</label>
-        <input type="file" name="Image" />
         @if (!string.IsNullOrEmpty(Model.ImagePath))
         {
             <p>Current Image:</p>
-            <img src="@Model.ImagePath" alt="Book Image" style="width:100px;height:auto;" />
+            <img id="previewImage" src="@Model.ImagePath" alt="Book Image" style="max-width: 300px; margin-top: 10px;" />
         }
+        <div>
+            <label for="Image">Change Image:</label>
+            <input type="file" name="Image" id="imageInput" onchange="previewUploadedImage()" />
+        </div>
     </div>
-    <button type="submit">Save Changes</button>
-    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
-</form>
+</div>
+
+        <div class="addbook-group col-md-7 d-flex flex-column">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="form-group mb-2">
+                <label for="Title">Title</label>
+                <input type="text" name="Title" class="form-control" value="@Model.Title" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="Category">Category</label>
+                <input type="text" name="Category" class="form-control" value="@Model.Category" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="Author">Author</label>
+                <input type="text" name="Author" class="form-control" value="@Model.Author" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="Publisher">Publisher</label>
+                <input type="text" name="Publisher" class="form-control" value="@Model.Publisher" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="PublishedDate">Published Date</label>
+                <input type="date" name="PublishedDate" class="form-control" value="@Model.PublishedDate?.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="Isbn">ISBN</label>
+                <input type="text" name="Isbn" class="form-control" value="@Model.Isbn" />
+            </div>
+            <div class="form-group mb-2">
+                <label for="Description">Description</label>
+                <textarea name="Description" class="form-control" rows="2">@Model.Description</textarea>
+            </div>
+        </div>
+
+<div class="d-flex justify-content-end mb-3">
+                <div class="button-container-addbook">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-md">Cancel</a>
+                    <button type="submit" class="btn btn-primary btn-md">Save Changes</button>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script>
+    function previewUploadedImage() {
+        const input = document.getElementById('imageInput');
+        const preview = document.getElementById('previewImage');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result; // อัปเดต src ของรูป
+            };
+
+            reader.readAsDataURL(input.files[0]); // อ่านไฟล์ที่อัปโหลด
+        }
+    }
+</script>
