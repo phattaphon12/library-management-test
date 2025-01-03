@@ -1,18 +1,87 @@
 ﻿@{
     ViewData["Title"] = "AddBook";
+    <link rel="stylesheet" href="~/css/books.css" asp-append-version="true" />
 }
-<h1>AddBook</h1>
-<form asp-action="AddBook" method="post" enctype="multipart/form-data">
-    <input type="text" name="Title" placeholder="Title" />
-    <input type="text" name="Category" placeholder="Category" />
-    <input type="text" name="Author" placeholder="Author" />
-    <input type="text" name="Publisher" placeholder="Publisher" />
-    <input type="date" name="PublishedDate" placeholder="Published Date" />
-    <input type="text" name="Isbn" placeholder="Isbn" />
-    <input type="text" name="Description" placeholder="Description" />
-    <!-- ช่องอัปโหลดรูปภาพ -->
-    <label for="Image">Upload Image:</label>
-    <input type="file" name="Image" />
-    <button type="submit">Add Book</button>
-    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
-</form>
+<h1 class="font-color-lib my-4">AddBook</h1>
+
+<div class="container-fluid mt-4">
+    <form asp-action="AddBook" method="post" enctype="multipart/form-data" class="row justify-content-between">
+        <div class="pic-add-lib col-md-5 mb-3">
+            <!-- พื้นที่แสดงภาพ -->
+            <div>
+                <img id="ImagePreview" src="#" alt="Preview Image"
+                    style="display:none; max-width: 300px; margin-top: 10px;" />
+            </div>
+            <!-- ช่องอัปโหลดรูปภาพ -->
+            <label for="Image">Upload Image:</label>
+            <input type="file" name="Image" id="ImageInput" accept="image/*" onchange="showImagePreview(event)" />
+        </div>
+
+        <div class="addbook-group col-md-7 d-flex flex-column">
+            <div class="form-group mb-2">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Title" class="form-control" placeholder="Enter book title" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Category">Category</label>
+                <input type="text" id="Category" name="Category" class="form-control"
+                    placeholder="Enter book category" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Author">Author</label>
+                <input type="text" id="Author" name="Author" class="form-control" placeholder="Enter author's name" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Publisher">Publisher</label>
+                <input type="text" id="Publisher" name="Publisher" class="form-control"
+                    placeholder="Enter publisher name" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="PublishedDate">Published Date</label>
+                <input type="date" id="PublishedDate" name="PublishedDate" class="form-control" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Isbn">ISBN</label>
+                <input type="text" id="Isbn" name="Isbn" class="form-control" placeholder="Enter ISBN" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="Description">Description</label>
+                <input type="text" id="Description" name="Description" class="form-control"
+                    placeholder="Enter book description" />
+            </div>
+
+            <div class="d-flex justify-content-end mb-4">
+                <div class="button-container-addbook">
+                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-md">Cancel</a>
+                    <button type="submit" class="btn btn-primary btn-md">Add Book</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showImagePreview(event) {
+        const fileInput = event.target;
+        const previewImage = document.getElementById("ImagePreview");
+
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = "block"; // แสดงภาพ
+            };
+
+            reader.readAsDataURL(fileInput.files[0]); // อ่านไฟล์และแปลงเป็น Base64
+        } else {
+            previewImage.style.display = "none"; // ซ่อนภาพหากไม่มีไฟล์
+        }
+    }
+</script>
