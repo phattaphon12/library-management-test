@@ -1,0 +1,28 @@
+@import "site.css";
+
+.font-color-lib {
+    color: var(--font-color-primary);
+}
+
+table.table-book {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-book thead {
+    height: 40px;
+    font-size: 18px;
+    border-bottom: 2px solid var(--color-blue);
+}
+
+.table-book tbody tr {    
+    border-bottom: 1px solid var(--color-blue);
+}
+
+.table-book tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-book tbody td {
+    padding: 10px 0;
+}
