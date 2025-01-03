@@ -7,13 +7,14 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Library_Management.styles.css" asp-append-version="true" />
 </head>
 <body class="backgroundLibrary">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Library Management</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3 mx-4 my-2">
+            <div class="container-fluid mx-auto">
+                <a class="font-logo navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Library Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,16 +24,16 @@
                         @if (ViewContext.HttpContext.Items["Role"] != null && ViewContext.HttpContext.Items["Role"].ToString() == "Admin")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Manage Books</a>
+                                <a class="nav-link" asp-area="" asp-controller="Books" asp-action="Index">Manage Books</a>
                             </li>
                         }                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="SearchBook">Search</a>
+                            <a class="nav-link" asp-area="" asp-controller="Search" asp-action="SearchBook">Search</a>
                         </li>
                         @if (ViewContext.HttpContext.Items["Role"] != null && ViewContext.HttpContext.Items["Role"].ToString() == "User")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserBooks">Borrowed</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="UserBooks">Borrowed</a>
                             </li>
                         }
                     </ul>
@@ -43,18 +44,18 @@
                         @if (ViewContext.HttpContext.Items["Username"] != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/Account/UserBooks">@ViewContext.HttpContext.Items["Username"]</a>
+                                <div class="user-nav nav-link">Hello! @ViewContext.HttpContext.Items["Username"]</div>
                             </li>
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button class="btn btn-link nav-link" type="submit">Logout</button>
+                                    <button class="btn btn-outline-danger" type="submit">Logout</button>
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/Account/Login">Login</a>
+                                <a class="btn btn-outline-primary" href="/Account/Login">Login</a>
                             </li>
                         }
                     </ul>

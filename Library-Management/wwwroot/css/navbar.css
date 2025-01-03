@@ -1,0 +1,17 @@
+@import "site.css";
+nav {
+    background-color: var(--color-cream);
+}
+
+.font-logo {
+    color: var(--color-blue);
+    font-size: 24px;
+    font-weight: 600;
+    margin-right: 30px;
+}
+
+.user-nav{
+    color: var(--color-blue);
+    font-weight: 500;
+    margin-right: 18px;
+}
