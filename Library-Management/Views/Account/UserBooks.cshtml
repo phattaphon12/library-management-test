@@ -1,33 +1,45 @@
 ﻿@model List<Library_Management.Models.LoanBookViewModel>
-<h2>Books You Have Borrowed</h2>
+@{
+    <link rel="stylesheet" href="~/css/userbook.css" asp-append-version="true" />
+}
+<h2 class="font-color-lib my-4">Books You Have Borrowed</h2>
 @if (Model != null && Model.Count > 0)
 {
-    <table class="table">
+    <table class="table-book table-hover">
         <thead>
             <tr>
+                <th>Cover</th>
                 <th>Book Title</th>
                 <th>Borrowed Date</th>
                 <th>Due Date</th>
-                <th>Action</th>  <!-- เพิ่มคอลัมน์สำหรับปุ่ม "Return Book" -->
+                <th>Return</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var loanBook in Model)
             {
                 <tr>
-                    <td>@loanBook.Book.Title</td>  <!-- ใช้ Title ของหนังสือ -->
+                    <td>
+                        @if (!string.IsNullOrEmpty(loanBook.Book.ImagePath))
+                        {
+                            <img src="@Url.Content(loanBook.Book.ImagePath)" alt="Book Cover" style="width:100px; height:auto;" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
+                    </td>
+                    <td><a asp-controller="Search" asp-action="Details" asp-route-id="@loanBook.Book.Id">@loanBook.Book.Title</a></td> <!-- ใช้ Title ของหนังสือ -->
                     <td>@loanBook.Loan.BorrowedDate.ToString("yyyy-MM-dd")</td>
                     <td>@loanBook.Loan.DueDate.ToString("yyyy-MM-dd")</td>
                     <td>
                         @if (!loanBook.Loan.IsReturned)
                         {
-                            <!-- Form สำหรับคืนหนังสือ -->
                             <form method="post" action="@Url.Action("ReturnBook", "Loan")">
-                                <!-- Hidden inputs สำหรับส่งข้อมูล -->
                                 <input type="hidden" name="bookId" value="@loanBook.Loan.BookId" />
                                 <input type="hidden" name="username" value="@loanBook.Loan.Username" />
-                                <!-- ปุ่มสำหรับคืนหนังสือ -->
-                                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to return this book?')">Return Book</button>
+                                <button type="submit" class="btn btn-success"
+                                    onclick="return confirm('Are you sure you want to return this book?')">Return Book</button>
                             </form>
                         }
                     </td>

@@ -15,6 +15,15 @@ public class BooksController : Controller
     public IActionResult Index()
     {
         var books = _mongoDbService.GetBooksCollection().Find(book => true).ToList();
+        // ดึงข้อมูล Loan ที่เกี่ยวข้องกับหนังสือ
+        foreach (var book in books)
+        {
+            var loan = _mongoDbService.GetLoansCollection().Find(l => l.BookId == book.Id && !l.IsReturned).FirstOrDefault(); // ค้นหาการยืมที่ยังไม่คืน
+            if (loan != null)
+            {
+                book.Username = loan.Username; // เก็บชื่อผู้ยืมลงใน Book
+            }
+        }
         return View(books);
     }
 

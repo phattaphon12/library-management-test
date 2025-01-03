@@ -1,0 +1,35 @@
+@import "site.css";
+
+.font-color-lib {
+    color: var(--font-color-primary);
+}
+
+/* ----------- INDEX ------------ */
+.table-book {
+    width: 100%;
+}
+
+.table-book thead {
+    height: 40px;
+    font-size: 16px;
+    border-bottom: 2px solid var(--color-blue);
+}
+
+.table-book tbody tr {    
+    border-bottom: 1px solid var(--color-blue);
+}
+
+.table-book tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-book tbody td {
+    padding: 10px 0;
+    text-wrap: wrap;
+}
+
+/* ----------- Add ------------ */
+.addbook-group label{
+    font-weight: 500;
+    margin-bottom: 5px;
+}
