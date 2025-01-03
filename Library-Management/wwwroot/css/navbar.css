@@ -4,14 +4,14 @@ nav {
 }
 
 .font-logo {
-    color: var(--color-blue);
+    color: var(--font-color-primary);
     font-size: 24px;
     font-weight: 600;
     margin-right: 30px;
 }
 
 .user-nav{
-    color: var(--color-blue);
+    color: var(--font-color-primary);
     font-weight: 500;
     margin-right: 18px;
 }

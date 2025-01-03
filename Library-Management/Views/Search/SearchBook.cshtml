@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<Book>
 @{
     ViewData["Title"] = "Search Books";
+    <link rel="stylesheet" href="~/css/search.css" asp-append-version="true" />
 }
-<h1>Search Books</h1>
+<h1 class="text-center font-color-lib mb-5">Search Books</h1>
 <!-- ฟอร์มค้นหา -->
-<form asp-action="SearchBook" method="get">
-    <input type="text" name="search" placeholder="Search by Title" value="@ViewData["SearchQuery"]" />
-    <button type="submit">Search</button>
+<form asp-action="SearchBook" method="get" class="input-group mb-3">
+    <input type="text" name="search" class="form-control" placeholder="Search by Title" value="@ViewData["SearchQuery"]" />
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
 </form>
 <div class="book-grid">
     @if (!Model.Any())
@@ -17,7 +20,7 @@
     {
         @foreach (var book in Model)
         {
-            <div class="book-item">
+            <div class="book-item mx-auto">
                 <a asp-controller="Search" asp-action="Details" asp-route-id="@book.Id">
                     @if (!string.IsNullOrEmpty(book.ImagePath))
                     {
@@ -27,7 +30,7 @@
                     {
                         <div class="no-image">No Image</div>
                     }
-                    <p class="book-title">@book.Title</p>
+                    <p class="book-title text-center">@book.Title</p>
                 </a>
             </div>
         }

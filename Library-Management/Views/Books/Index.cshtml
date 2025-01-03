@@ -16,7 +16,6 @@
             <th>Publisher</th>
             <th>Published Date</th>
             <th>Isbn</th>
-            <th>Description</th>
             <th>Image</th> <!-- เพิ่มคอลัมน์รูปภาพ -->
             <th>Status</th> <!-- เพิ่มคอลัมน์สถานะ -->
             <th>Edit</th>
@@ -42,7 +41,6 @@
                     }
                 </td>
                 <td>@book.Isbn</td>
-                <td>@book.Description</td>
                 <td>
                     @if (!string.IsNullOrEmpty(book.ImagePath))
                     {
