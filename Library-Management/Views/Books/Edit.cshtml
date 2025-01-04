@@ -25,27 +25,27 @@
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="form-group mb-2">
                 <label for="Title">Title</label>
-                <input type="text" name="Title" class="form-control" value="@Model.Title" />
+                <input type="text" name="Title" class="form-control" value="@Model.Title" required />
             </div>
             <div class="form-group mb-2">
                 <label for="Category">Category</label>
-                <input type="text" name="Category" class="form-control" value="@Model.Category" />
+                <input type="text" name="Category" class="form-control" value="@Model.Category" required />
             </div>
             <div class="form-group mb-2">
                 <label for="Author">Author</label>
-                <input type="text" name="Author" class="form-control" value="@Model.Author" />
+                <input type="text" name="Author" class="form-control" value="@Model.Author" required />
             </div>
             <div class="form-group mb-2">
                 <label for="Publisher">Publisher</label>
-                <input type="text" name="Publisher" class="form-control" value="@Model.Publisher" />
+                <input type="text" name="Publisher" class="form-control" value="@Model.Publisher" required />
             </div>
             <div class="form-group mb-2">
                 <label for="PublishedDate">Published Date</label>
-                <input type="date" name="PublishedDate" class="form-control" value="@Model.PublishedDate?.ToString("yyyy-MM-dd")" />
+                <input type="date" name="PublishedDate" class="form-control" value="@Model.PublishedDate?.ToString("yyyy-MM-dd")" required />
             </div>
             <div class="form-group mb-2">
                 <label for="Isbn">ISBN</label>
-                <input type="text" name="Isbn" class="form-control" value="@Model.Isbn" />
+                <input type="text" name="Isbn" class="form-control" value="@Model.Isbn" required />
             </div>
             <div class="form-group mb-2">
                 <label for="Description">Description</label>
