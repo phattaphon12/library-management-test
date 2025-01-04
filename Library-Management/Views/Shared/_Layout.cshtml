@@ -1,37 +1,42 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library Management</title>
-    <link rel="icon" type="image/x-icon" href="~/icon/book.png" />
+    <link rel="icon" type="image/png" href="~/icon/book.png" />
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Library_Management.styles.css" asp-append-version="true" />
 </head>
+
 <body class="backgroundLibrary">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3 mx-4 my-2">
             <div class="container-fluid mx-auto">
-                <a class="font-logo navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Library Management</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="font-logo navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Library
+                    Management</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (ViewContext.HttpContext.Items["Role"] != null && ViewContext.HttpContext.Items["Role"].ToString() == "Admin")
+                        @if (ViewContext.HttpContext.Items["Role"] != null &&
+                        ViewContext.HttpContext.Items["Role"].ToString() == "Admin")
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Books" asp-action="Index">Manage Books</a>
                             </li>
-                        }                        
+                        }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Search" asp-action="SearchBook">Search</a>
                         </li>
-                        @if (ViewContext.HttpContext.Items["Role"] != null && ViewContext.HttpContext.Items["Role"].ToString() == "User")
+                        @if (ViewContext.HttpContext.Items["Role"] != null &&
+                        ViewContext.HttpContext.Items["Role"].ToString() == "User")
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Account" asp-action="UserBooks">Borrowed</a>
@@ -70,10 +75,33 @@
         </main>
     </div>
 
-    
+    <button id="scrollToTop" class="scroll-to-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // แสดงหรือซ่อนปุ่มเมื่อผู้ใช้เลื่อนหน้า
+        window.onscroll = function () {
+            const scrollButton = document.getElementById("scrollToTop");
+            if (document.documentElement.scrollTop > 100 || document.body.scrollTop > 100) {
+                scrollButton.classList.add("show");
+            } else {
+                scrollButton.classList.remove("show");
+            }
+        };
+
+        // เลื่อนหน้าไปบนสุด
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth", // ทำให้เลื่อนนุ่มนวล
+            });
+        }
+
+    </script>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
