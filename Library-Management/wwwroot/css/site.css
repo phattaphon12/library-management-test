@@ -18,3 +18,32 @@
 .backgroundLibrary {
   background-color: var(--color-cream);
 }
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-green);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: none; /* ซ่อนปุ่มเริ่มต้น */
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 600;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: #6b8d39;
+}
+
+.scroll-to-top.show {
+  display: flex;
+}
