@@ -14,40 +14,40 @@
             </div>
             <!-- ช่องอัปโหลดรูปภาพ -->
             <label for="Image">Upload Image:</label>
-            <input type="file" name="Image" id="ImageInput" accept="image/*" onchange="showImagePreview(event)" />
+            <input type="file" name="Image" id="ImageInput" accept="image/*" onchange="showImagePreview(event)" required />
         </div>
 
         <div class="addbook-group col-md-7 d-flex flex-column">
             <div class="form-group mb-2">
                 <label for="Title">Title</label>
-                <input type="text" id="Title" name="Title" class="form-control" placeholder="Enter book title" />
+                <input type="text" id="Title" name="Title" class="form-control" placeholder="Enter book title" required />
             </div>
 
             <div class="form-group mb-2">
                 <label for="Category">Category</label>
                 <input type="text" id="Category" name="Category" class="form-control"
-                    placeholder="Enter book category" />
+                       placeholder="Enter book category" required />
             </div>
 
             <div class="form-group mb-2">
                 <label for="Author">Author</label>
-                <input type="text" id="Author" name="Author" class="form-control" placeholder="Enter author's name" />
+                <input type="text" id="Author" name="Author" class="form-control" placeholder="Enter author's name" required />
             </div>
 
             <div class="form-group mb-2">
                 <label for="Publisher">Publisher</label>
                 <input type="text" id="Publisher" name="Publisher" class="form-control"
-                    placeholder="Enter publisher name" />
+                       placeholder="Enter publisher name" required />
             </div>
 
             <div class="form-group mb-2">
                 <label for="PublishedDate">Published Date</label>
-                <input type="date" id="PublishedDate" name="PublishedDate" class="form-control" />
+                <input type="date" id="PublishedDate" name="PublishedDate" class="form-control" required />
             </div>
 
             <div class="form-group mb-2">
                 <label for="Isbn">ISBN</label>
-                <input type="text" id="Isbn" name="Isbn" class="form-control" placeholder="Enter ISBN" />
+                <input type="text" id="Isbn" name="Isbn" class="form-control" placeholder="Enter ISBN" required />
             </div>
 
             <div class="form-group mb-3">
