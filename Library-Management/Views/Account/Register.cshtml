@@ -1,27 +1,28 @@
 ﻿@model Library_Management.DTOs.RegisterRequest
 @{
     ViewData["Title"] = "Register";
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 }
-<h2>@ViewData["Title"]</h2>
+<h2 class="font-color-lib text-center mb-3">@ViewData["Title"]</h2>
 <form method="post">
-    <div class="form-group">
-        <label for="Username">Username</label>
+    <div class="form-group mb-3">
+        <label for="Username" class="font-color-lib mb-1">Username</label>
         <input type="text" class="form-control" id="Username" name="Username" required />
     </div>
-    <div class="form-group">
-        <label for="Password">Password</label>
+    <div class="form-group mb-3">
+        <label for="Password" class="font-color-lib mb-1">Password</label>
         <input type="password" class="form-control" id="Password" name="Password" required />
     </div>
-    <div class="form-group">
-        <label for="Phone">Phone</label>
-        <input type="text" class="form-control" id="Phone" name="Phone" required />
+    <div class="form-group mb-3">
+        <label for="Phone" class="font-color-lib mb-1">Phone</label>
+        <input type="tel" class="form-control" id="Phone" name="Phone" required />
     </div>
-    <div class="form-group">
-        <label for="Role">Role</label>
+    <div class="form-group mb-2">
+        <label for="Role" class="font-color-lib mb-1">Role</label>
         <select class="form-control" id="Role" name="Role">
             <option value="User">User</option>
             <option value="Admin">Admin</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="login-btn-lib btn btn-primary mt-3">Register</button>
 </form>
